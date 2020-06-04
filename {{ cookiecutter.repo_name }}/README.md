@@ -1,9 +1,9 @@
-{{cookiecutter.project_name}}
+# {{cookiecutter.project_name}}
 ==============================
 
 {{cookiecutter.description}}
 
-Project Organization
+## Project Organization
 ------------
 
     ├── README.md          <- The top-level README for developers using this project.
