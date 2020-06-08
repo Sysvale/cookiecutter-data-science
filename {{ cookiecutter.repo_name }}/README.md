@@ -4,15 +4,9 @@
 
 ## Docker Quickstart
 
-This app can be run completely using `Docker` and `docker-compose`. **Using Docker is recommended, as it guarantees the application is run using compatible versions of Python**.
+This app can be run completely using `Docker` and `docker-compose`. **Using Docker is recommended, as it guarantees the application is run using compatible versions of Python**. You can find out more at [Compose command-line reference](https://docs.docker.com/compose/reference/).
 
-There are three main services:
-
-To run the development environment of the project
-
-```bash
-docker-compose up dev
-```
+### Production
 
 To run the production version of the project
 
@@ -20,7 +14,21 @@ To run the production version of the project
 docker-compose up prod
 ```
 
-To run the jupyter environment of the project
+To run the {{ cookiecutter.repo_name }} module of the project
+
+```bash
+docker-compose exec prod "python3 -m {{ cookiecutter.repo_name }}"
+```
+
+### Development
+
+To run the project development environment
+
+```bash
+docker-compose up dev
+```
+
+To run the jupyter server at `127.0.0.1:8888`
 
 ```bash
 docker-compose up jupyter
