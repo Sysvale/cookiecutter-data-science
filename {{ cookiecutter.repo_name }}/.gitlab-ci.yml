@@ -1,0 +1,27 @@
+image: python:3.8-slim-buster
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache"
+
+cache:
+  paths:
+    - .cache/pip
+    - venv/
+
+before_script:
+  - python -V
+  - pip install virtualenv
+  - virtualenv venv
+  - source venv/bin/activate
+
+test:
+  allow_failure: true
+  script:
+  - pip install -U tox
+  - tox
+  only:
+    - master
+    - develop
+    - merge_requests
+  artifacts:
+    expire_in: 1 week
