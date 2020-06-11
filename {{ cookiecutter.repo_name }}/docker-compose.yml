@@ -1,0 +1,32 @@
+version: "3.7"
+services:
+  prod:
+    labels:
+      - Author="{{ cookiecutter.author_name }}"
+    build:
+      context: .
+      dockerfile: docker/prod.Dockerfile
+    volumes:
+      - ./:/home
+    stdin_open: true
+
+  dev:
+    labels:
+      - Author="{{ cookiecutter.author_name }}"
+    build:
+      context: .
+      dockerfile: docker/dev.Dockerfile
+    volumes:
+      - ./:/home
+    stdin_open: true
+
+  jupyter:
+    labels:
+      - Author="{{ cookiecutter.author_name }}"
+    build:
+      context: .
+      dockerfile: docker/jupyter.Dockerfile
+    volumes:
+      - ./:/home
+    ports:
+      - "8888:8888"
