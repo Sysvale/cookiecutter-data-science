@@ -6,7 +6,7 @@
 
 This app can be run completely using `Docker` and `docker-compose`. **Using Docker is recommended, as it guarantees the application is run using compatible versions of Python**. You can find out more at [Compose command-line reference](https://docs.docker.com/compose/reference/).
 
-## Basics
+### Basics
 
 To build and start a service running in background
 ```bash
@@ -39,7 +39,7 @@ docker-compose up -d prod
 To run the {{ cookiecutter.repo_name }} module of the project
 
 ```bash
-docker-compose exec prod "python3 -m {{ cookiecutter.repo_name }}"
+docker-compose exec prod python -m {{ cookiecutter.repo_name }}
 ```
 
 ### Development
@@ -54,9 +54,9 @@ To execute {{ cookiecutter.repo_name }} development routines
 
 ```bash
 # [FOLDERS] = folder1 folder2 folder3 (optional to limit validation)
-docker-compose exec dev "flake8 --max-complexity=10 [FOLDERS] "
-docker-compose exec dev "pytest --cov={{ cookiecutter.repo_name }} [MODULES_FOLDER] [TESTS_FOLDER]"
-docker-compose exec dev "python3 -m {{ cookiecutter.repo_name }}"
+docker-compose exec dev flake8 --max-complexity=10 [FOLDERS]
+docker-compose exec dev pytest --cov={{ cookiecutter.repo_name }} [MODULES_FOLDER] [TESTS_FOLDER]
+docker-compose exec dev python -m {{ cookiecutter.repo_name }}
 ```
 
 To run the jupyter server at `127.0.0.1:8888`
