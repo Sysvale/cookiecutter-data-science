@@ -76,7 +76,8 @@ env.py
 .ipynb_checkpoints/
 
 # exclude data from source control by default
-/data/
+/data/*/*
+!/data/*/.gitkeep
 
 # Mac OS-specific storage files
 .DS_Store
@@ -87,3 +88,9 @@ env.py
 
 # Mypy cache
 .mypy_cache/
+
+/jovyan/
+
+# ignora os binarios
+/models/*
+!/models/.gitkeep
