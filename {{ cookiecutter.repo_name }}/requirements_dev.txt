@@ -1,5 +1,5 @@
 coverage
 flake8
+{% if cookiecutter.use_pytest == 'y' -%}
 pytest
-pytest-cov
-pylint
+pytest-cov{%- endif %}
