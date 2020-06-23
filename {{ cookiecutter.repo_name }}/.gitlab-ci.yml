@@ -1,27 +1,88 @@
 image: python:3.8-slim-buster
 
 variables:
-  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache"
+  PIP_CACHE_DIR: $CI_PROJECT_DIR/.cache
+  ARANGO_ROOT_PASSWORD: admin
+  TOX_CACHE_DIR: .tox/py38
+  PYTEST_CACHE: pytest
 
-cache:
-  paths:
-    - .cache/pip
-    - venv/
+stages:
+  - Clean_Up
+  - Tests
 
-before_script:
-  - python -V
-  - pip install virtualenv
-  - virtualenv venv
-  - source venv/bin/activate
-
-test:
-  allow_failure: true
+.tests-template:
+  stage: Tests
   script:
-  - pip install -U tox
-  - tox
+    - python -V
   only:
-    - master
-    - develop
-    - merge_requests
+    changes:
+      - {{ cookiecutter.repo_name }}/**/*.py
+      - tests/**/*.py
+      - .gitlab-ci.yml
+    refs:
+      - develop
+      - merge_request
   artifacts:
     expire_in: 1 week
+
+flake8:
+  extends: .tests-template
+  allow_failure: true
+  before_script:
+    - python -V
+    - pip install flake8
+  script:
+    - flake8 {{ cookiecutter.repo_name }} tests --ignore=F401
+  except:
+    refs:
+      - schedules
+  cache: {}
+
+pytest:
+  extends: .tests-template
+  image: image: python:3.8-buster
+  before_script:
+    - python -V
+    - cp env.example.py env.py
+    - pip install -U tox
+  script:
+    - tox
+  only:
+    changes:
+      - {{ cookiecutter.repo_name }}/**/*
+      - tests/**/*
+      - .gitlab-ci.yml
+      - requirements_dev.txt
+      - tox.ini
+      - "*.py"
+    refs:
+      - develop
+      - schedules
+  cache:
+    key: $PYTEST_CACHE
+    paths:
+      - $TOX_CACHE_DIR
+
+pytest:mr:
+  extends: pytest
+  only:
+    refs:
+      - merge_requests
+  except:
+    refs:
+      - schedules
+  cache:
+    policy: pull
+
+clean:on-schedule:
+  stage: Clean_Up
+  script:
+    - echo "Cleaning up cache!"
+  only:
+    refs:
+      - schedules
+  cache:
+    key: "$CACHE_KEY"
+    policy: push
+    paths:
+      - $CACHE_AT
