@@ -47,7 +47,7 @@ class TestCookieSetup(object):
         assert no_curlies(readme_path)
         if pytest.param.get('project_name'):
             with open(readme_path) as fin:
-                assert 'DrivenData' == next(fin).strip()
+                assert '# DrivenData' == next(fin).strip()
 
     def test_setup(self):
         setup_ = self.path / 'setup.py'
@@ -62,12 +62,10 @@ class TestCookieSetup(object):
             assert reqs_path.exists()
             assert no_curlies(reqs_path)
 
-            if pytest.param.get('python_interpreter'):
-                with open(reqs_path) as fin:
-                    lines = list(map(lambda x: x.strip(), fin.readlines()))
-                assert 'pathlib2' in lines
 
     def test_folders(self):
+        project = str(self.path)
+        project = project[project.rfind('/', 0, len(project)) + 1:]
         expected_dirs = [
             'data',
             'data/external',
@@ -81,11 +79,11 @@ class TestCookieSetup(object):
             'references',
             'reports',
             'reports/figures',
-            '{{ cookiecutter.repo_name }}',
-            '{{ cookiecutter.repo_name }}/data',
-            '{{ cookiecutter.repo_name }}/features',
-            '{{ cookiecutter.repo_name }}/models',
-            '{{ cookiecutter.repo_name }}/visualization',
+            "{}".format(project),
+            "{}/data".format(project),
+            "{}/features".format(project),
+            "{}/models".format(project),
+            "{}/visualization".format(project),
         ]
 
         ignored_dirs = [
