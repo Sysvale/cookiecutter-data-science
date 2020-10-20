@@ -69,17 +69,17 @@ docker-compose up jupyter
 
 ```
 ├── README.md               <- The top-level README for developers using this project.
-├── data
+├── storage
 │   ├── external            <- Data from third party sources.
 │   ├── interim             <- Intermediate data that has been transformed.
 │   ├── processed           <- The final, canonical data sets for modeling.
-│   └── raw                 <- The original, immutable data dump.
+│   └── data                <- The original, immutable data dump.
 │
 ├── docker-compose.yml      <- The docker-compose file to manage environments as services.
 ├── docker
 │   ├── dev.Dockerfile      <- Dockerfile to the project development environment container.
 │   ├── jupyter.Dockerfile  <- Dockerfile to the project jupyter environment container.
-│   ├── prod.Dockerfile     <- Dockerfile to the project production environment container.
+│   └── prod.Dockerfile     <- Dockerfile to the project production environment container.
 │
 ├── docs                    <- A default Sphinx project; see sphinx-doc.org for details
 │
